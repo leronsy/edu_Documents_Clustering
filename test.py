@@ -38,7 +38,7 @@ def find_clusters(x, n_clusters, rseed=123):
 
 
 dataset = load_files('words', encoding='utf-8')
-test_dataset = load_files('test_words', encoding='utf-8')
+# test_dataset = load_files('test_words', encoding='utf-8')
 claster_number = len(dataset['target_names'])
 article_number = len(dataset['filenames'])
 vectorizer = TfidfVectorizer(max_df=18, min_df=2, ngram_range=(1, 3))  # , stop_words='russian')
@@ -80,17 +80,6 @@ def f1():
     plt.yticks(np.arange(0, article_number), lbls, rotation='horizontal')
     plt.show()
     print(())
-
-
-def f2():
-    text_clf = Pipeline(
-        [('vect', TfidfVectorizer()), ('tfidf', TfidfTransformer()),
-         ('clf', MultinomialNB()), ])
-    text_clf = text_clf.fit(dataset.data, dataset.target)
-
-    pred = text_clf.predict(test_dataset)
-    print(test_dataset['filenames'])
-    print(pred)
 
 
 def f3():
@@ -151,8 +140,12 @@ def f3():
         if len(it) > 20:
             it = it[:21]
         plt.annotate(it, (features[i, 0], features[i, 1]), fontsize=8)
-    plt.grid(True)
 
+    error_number  = np.count_nonzero(feat[:,3]-feat[:,2])
+    plt.title((error_number,))
+    plt.grid(True)
+    plt.xlim((0,0.5))
+    plt.ylim((-0.5,0.6))
     plt.show()
 
 
